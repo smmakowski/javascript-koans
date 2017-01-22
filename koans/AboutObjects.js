@@ -1,4 +1,4 @@
-describe("About Objects", function() {
+describe("About Objects", function() { 
 
   describe("Properties", function() {
     var meglomaniac;

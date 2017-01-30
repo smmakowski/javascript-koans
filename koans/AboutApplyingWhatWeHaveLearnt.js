@@ -119,26 +119,177 @@ describe("About Applying What We Have Learnt", function() {
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
-  it("should find the largest prime factor of a composite number", function () {
   
+  it("should find the largest prime factor of a composite number", function () {
+    var isPrime = function(num){
+      if (num < 2) {
+        return false;
+      }
+
+      for (var i = 2; i < num; i ++) {
+        if (num % i === 0){
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    var findLargestPrimeFactor = function(num){
+      var factors = [];
+
+      for (var i = 1; i <= num; i++) {
+        if (num % i === 0) {
+          factors.push(i);
+        }
+      }
+
+      var primeFactors = factors.filter(function(e){
+        return isPrime(e);
+      });
+
+      return primeFactors[primeFactors.length - 1];
+    }
+
+    expect(findLargestPrimeFactor(10)).toBe(5);
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
-    
+    var isPalindrome = function(num){
+      var str = num.toString();
+
+      if (str === str.split('').reverse().join('')) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    var isProductOfThreeDigitNumbers = function(num){
+      for (var i = 999; i >= 100; i--){
+        for (var j = 999; j >= 100; j--){
+          if (i * j === num) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    var findLargestPalindrome = function(){
+      var largestProduct = 999 * 999;
+      var smallestProduct = 100 * 100;
+
+      for (var i = largestProduct; i >= smallestProduct; i--){
+        if (isPalindrome(i) && isProductOfThreeDigitNumbers(i)) {
+          return i;
+        }
+      }
+    };
+
+    expect(findLargestPalindrome()).toBe(906609);
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
+    var isDivisibleByOneThroughTwenty = function(num) {
+      var oneThroughTwenty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+      return oneThroughTwenty.every(function(i){
+        return (num % i === 0);
+      });
+    };
+
+    var findSmallestDivisible = function(){
+      var i = 1;
+      var isDivisibleByAll = false;
       
-    
+      while (!isDivisibleByAll) {
+        if (isDivisibleByOneThroughTwenty(i)) {
+          return i;
+        }
+
+        i++;
+      }
+    };
+
+    expect(findSmallestDivisible()).toBe(232792560);
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
-    
+    // sum of squares is th sum of squares of the first n numbers; n = 4 [1,2,3,4] => [1,4,9,16] => 29;
+    //  square of sums =  n = 4, [1,2,3,4] =>10 => 100;
+
+    var getSumOfSquares = function(num){
+      var numbers = [];
+
+      for (var i = 1; i <= num; i++){
+        numbers.push(i);
+      }
+
+      return numbers.map(function(ele){
+        return Math.pow(ele, 2);
+      }).reduce(function(acc, el){
+        return acc += el;
+      }, 0);
+    };
+
+    var getSquareOfSums = function(num){
+      var numbers = [];
+
+      for (var i = 1; i <= num; i++) {
+        numbers.push(i);
+      }
+
+      var sum = numbers.reduce(function(acc, ele){
+        return acc += ele;
+      });
+
+      return Math.pow(sum, 2);
+    };
+
+    var getDifference = function(num){
+      var squareOfSums = getSquareOfSums(num);
+      var sumOfSquares = getSumOfSquares(num);
+
+      return sumOfSquares - squareOfSums;
+    };
+
+    expect(getDifference(4)).toBe(-70);
   });
 
   it("should find the 10001st prime", function () {
+    var isPrime = function(num){
+      if (num < 2) {
+        return false;
+      }
 
+      for (var i = 2; i < num; i++) {
+        if (num % i === 0) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    var primeCount = 0;
+
+    var findTenThousandFirstPrime = function () {
+      var i = 1;
+      while (primeCount <=10002) {
+        if (isPrime(i)) {
+          primeCount++;
+        }
+
+        if (primeCount === 10001) {
+          return i;
+        }
+
+        i++;
+      }
+    };
+
+    expect(findTenThousandFirstPrime()).toBe(104743);
   });
-  */
+
 });
